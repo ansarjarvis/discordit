@@ -1,11 +1,22 @@
-import ThemeToggle from "@/components/ThemeToggle";
-import { UserButton } from "@clerk/nextjs";
+import { db } from "@/lib/db";
+import { initialProfile } from "@/lib/initialProfile";
+import { redirect } from "next/navigation";
 
-export default function Home() {
-  return (
-    <>
-      <UserButton afterSignOutUrl="/" />
-      <ThemeToggle />
-    </>
-  );
-}
+let Home = async () => {
+  let profile = await initialProfile();
+  let server = await db.server.findFirst({
+    where: {
+      member: {
+        some: {
+          profileId: profile.id,
+        },
+      },
+    },
+  });
+  if (server) {
+    return redirect(`/server/${server.id}`);
+  }
+  return <div>Create a Server</div>;
+};
+
+export default Home;
