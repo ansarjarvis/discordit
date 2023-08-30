@@ -1,3 +1,4 @@
+import CreateServerModel from "@/components/models/CreateServerModel";
 import { db } from "@/lib/db";
 import { initialProfile } from "@/lib/initialProfile";
 import { redirect } from "next/navigation";
@@ -16,7 +17,6 @@ let Home = async () => {
   if (server) {
     return redirect(`/server/${server.id}`);
   }
-  return <div>Create a Server</div>;
+  return <CreateServerModel />;
 };
-
 export default Home;
