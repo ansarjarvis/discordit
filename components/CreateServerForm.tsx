@@ -1,6 +1,5 @@
 "use client";
 
-import { FC } from "react";
 import {
   Form,
   FormControl,
@@ -9,18 +8,23 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/Form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import {
   serverCreationRequest,
   serverSchemaValidator,
 } from "@/lib/validators/server";
-import { Input } from "./ui/Input";
-import { DialogFooter } from "./ui/Dialog";
-import { Button } from "./ui/Button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FC } from "react";
+import { useForm } from "react-hook-form";
 import FileUpload from "./FileUpload";
+import { Button } from "./ui/Button";
+import { DialogFooter } from "./ui/Dialog";
+import { Input } from "./ui/Input";
+import { useMutation } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
 
 const CreateServerForm: FC = ({}) => {
+  let router = useRouter();
   let form = useForm<serverCreationRequest>({
     resolver: zodResolver(serverSchemaValidator),
     defaultValues: {
@@ -29,13 +33,33 @@ const CreateServerForm: FC = ({}) => {
     },
   });
 
-  let formSubmitHandler = (data: serverCreationRequest) => {
-    console.log(data);
-  };
+  let { mutate: createServer, isLoading } = useMutation({
+    mutationFn: async ({ name, imageUrl }: serverCreationRequest) => {
+      let payload: serverCreationRequest = {
+        name,
+        imageUrl,
+      };
+      let { data } = await axios.post("/api/servers", payload);
+      return data;
+    },
+    onSuccess: () => {
+      form.reset();
+      router.refresh();
+      window.location.reload();
+    },
+    onError: (error) => {
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 401) {
+          console.log("unauthorized user please do login");
+        }
+      }
+    },
+  });
+
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(formSubmitHandler)}
+        onSubmit={form.handleSubmit((data) => createServer(data))}
         className="space-y-8"
       >
         <div className="space-y-8 px-6">
@@ -78,7 +102,7 @@ const CreateServerForm: FC = ({}) => {
           />
         </div>
         <DialogFooter className="bg-gray-100 px-6 py-4">
-          <Button disabled={form.formState.isSubmitting} variant="primary">
+          <Button isLoading={isLoading} variant="primary">
             Create
           </Button>
         </DialogFooter>

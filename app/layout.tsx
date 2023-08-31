@@ -1,8 +1,8 @@
+import Provider from "@/components/providers";
 import "@/styles/globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
-import { ClerkProvider } from "@clerk/nextjs";
-import { ThemeProvider } from "@/components/providers/theme-provider";
 const font = Open_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -19,14 +19,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
         <body className={font.className}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem={true}
-            storageKey="discordit-theme"
-          >
-            {children}
-          </ThemeProvider>
+          <Provider>{children}</Provider>
         </body>
       </html>
     </ClerkProvider>
