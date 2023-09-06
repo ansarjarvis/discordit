@@ -19,7 +19,7 @@ function ThemeToggle() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          variant="outline"
+          variant="ghost"
           size="icon"
           className=" rounded-full h-[48px] w-[48px]"
         >
