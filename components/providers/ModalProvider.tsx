@@ -3,6 +3,7 @@
 import { FC, useEffect, useState } from "react";
 import ServerModal from "../models/ServerModal";
 import InviteModal from "../models/InviteModal";
+import EditServerModal from "../models/EditServerModal";
 
 const ModalProvider: FC = ({}) => {
   let [isMounted, setIsMounted] = useState(false);
@@ -17,8 +18,9 @@ const ModalProvider: FC = ({}) => {
 
   return (
     <>
-      <InviteModal />
       <ServerModal />
+      <InviteModal />
+      <EditServerModal />
     </>
   );
 };
