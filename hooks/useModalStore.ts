@@ -6,7 +6,9 @@ export type ModelType =
   | "invite"
   | "editServer"
   | "member"
-  | "createChannel";
+  | "createChannel"
+  | "leaveServer"
+  | "deleteServer";
 
 type ModalData = {
   server?: Server;
