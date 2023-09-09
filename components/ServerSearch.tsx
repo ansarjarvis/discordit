@@ -43,7 +43,7 @@ const ServerSearch: FC<ServerSearchProps> = ({ data }: ServerSearchProps) => {
     return () => document.removeEventListener("keydown", down);
   }, []);
 
-  let onItemClick = ({
+  let itemSelectHandler = ({
     id,
     type,
   }: {
@@ -85,7 +85,7 @@ const ServerSearch: FC<ServerSearchProps> = ({ data }: ServerSearchProps) => {
                 {data?.map(({ id, icon, name }) => {
                   return (
                     <CommandItem
-                      onSelect={() => onItemClick({ id, type })}
+                      onSelect={() => itemSelectHandler({ id, type })}
                       key={id}
                     >
                       {icon}
