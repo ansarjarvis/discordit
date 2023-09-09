@@ -67,10 +67,6 @@ const ServerSidebar: FC<ServerSidebarProps> = async ({
     },
   });
 
-  if (!server) {
-    redirect("/");
-  }
-
   let textChannels = server?.channel.filter(
     (channel) => channel.type === ChannelType.TEXT
   );
@@ -84,8 +80,11 @@ const ServerSidebar: FC<ServerSidebarProps> = async ({
   let members = server?.member.filter(
     (member) => member.profileId !== profile?.id
   );
+  if (!server) {
+    return redirect("/");
+  }
 
-  let role = server.member.find(
+  let role = server?.member.find(
     (member) => member.profileId === profile?.id
   )?.role;
 
@@ -149,6 +148,7 @@ const ServerSidebar: FC<ServerSidebarProps> = async ({
                 <ServerChannel
                   key={channel.id}
                   channel={channel}
+                  // @ts-ignore
                   server={server}
                   role={role}
                 />
@@ -169,6 +169,7 @@ const ServerSidebar: FC<ServerSidebarProps> = async ({
                 <ServerChannel
                   key={channel.id}
                   channel={channel}
+                  // @ts-ignore
                   server={server}
                   role={role}
                 />
@@ -189,6 +190,7 @@ const ServerSidebar: FC<ServerSidebarProps> = async ({
                 <ServerChannel
                   key={channel.id}
                   channel={channel}
+                  // @ts-ignore
                   server={server}
                   role={role}
                 />

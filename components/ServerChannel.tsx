@@ -7,10 +7,11 @@ import { useParams, useRouter } from "next/navigation";
 import { FC } from "react";
 import ToolkitAction from "./ToolkitAction";
 import { useModalStore } from "@/hooks/useModalStore";
+import { ServerWithMemberWithProfile } from "./ServerHeader";
 
 interface ServerChannelProps {
+  server: ServerWithMemberWithProfile;
   channel: Channel;
-  server: Server;
   role?: MemberRole;
 }
 
