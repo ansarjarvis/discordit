@@ -23,7 +23,7 @@ const DeleteServerModal: FC<DeleteServerModalProps> = ({}) => {
   let { server } = data;
   let isModalOpen = isOpen && type === "deleteServer";
 
-  let { mutate: deleteServer } = useMutation({
+  let { mutate: deleteServer, isLoading } = useMutation({
     mutationFn: async () => {
       let { data } = await axios.delete(`/api/servers/${server?.id}`);
       return data;
@@ -56,7 +56,11 @@ const DeleteServerModal: FC<DeleteServerModalProps> = ({}) => {
             <Button onClick={() => onClose()} variant="ghost">
               Cancel
             </Button>
-            <Button onClick={() => deleteServer()} variant="primary">
+            <Button
+              isLoading={isLoading}
+              onClick={() => deleteServer()}
+              variant="primary"
+            >
               Confirm
             </Button>
           </div>
