@@ -1,8 +1,9 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ThemeProvider } from "./theme-provider";
 import ModalProvider from "./ModalProvider";
+import SocketProvider from "./SocketProvider";
+import { ThemeProvider } from "./theme-provider";
 
 let Provider = ({ children }: { children: React.ReactNode }) => {
   let queryClient = new QueryClient();
@@ -14,8 +15,10 @@ let Provider = ({ children }: { children: React.ReactNode }) => {
         enableSystem={true}
         storageKey="discordit-theme"
       >
-        <ModalProvider />
-        {children}
+        <SocketProvider>
+          <ModalProvider />
+          {children}
+        </SocketProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );
